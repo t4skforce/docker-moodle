@@ -54,7 +54,7 @@ RUN curl -Ls https://download.moodle.org/stable35/moodle-latest-35.tgz --output 
   && mv ./moodle /var/www/html/ \
   && chown -R www-data:www-data /var/www/html/moodle \
   && rm -rf /tmp/* \
-	&& echo "*/1 * * * * /usr/bin/php  /path/to/moodle/admin/cli/cron.php" | crontab -u www-data -
+  && echo "*/1 * * * * /usr/bin/php  /var/www/html/moodle/admin/cli/cron.php" | crontab -u www-data -
 COPY cfg/config.php /var/www/html/moodle/config.tpl.php
 
 # prepare mariadb
