@@ -14,7 +14,7 @@ ENV APPUID 1000
 ENV APPGID 1000
 ENV USER_HOME /home/moodle
 ENV BUILD_REQUIREMENTS wget expect gnupg
-ENV REQUIREMENTS sudo curl openssl ca-certificates supervisor apache2 mariadb-server php libapache2-mod-php php-mysql php-xml php-xmlrpc php-zip php-gd php-intl php-mbstring php-soap php-solr php-redis openjdk-8-jdk software-properties-common
+ENV REQUIREMENTS sudo curl openssl ca-certificates supervisor cron apache2 mariadb-server php libapache2-mod-php php-mysql php-xml php-xmlrpc php-zip php-gd php-intl php-mbstring php-soap php-solr php-redis openjdk-8-jdk software-properties-common
 ########################################
 
 USER root
@@ -53,7 +53,8 @@ RUN curl -Ls https://download.moodle.org/stable35/moodle-latest-35.tgz --output 
   && tar xzf moodle.tgz \
   && mv ./moodle /var/www/html/ \
   && chown -R www-data:www-data /var/www/html/moodle \
-  && rm -rf /tmp/*
+  && rm -rf /tmp/* \
+	&& echo "*/1 * * * * /usr/bin/php  /path/to/moodle/admin/cli/cron.php" | crontab -u www-data -
 COPY cfg/config.php /var/www/html/moodle/config.tpl.php
 
 # prepare mariadb
